@@ -1,0 +1,53 @@
+{
+    "name": "shapecode/doctrine-session-handler-bundle",
+    "description": "",
+    "keywords": [
+        "email",
+        "mail",
+        "imap"
+    ],
+    "type": "symfony-bundle",
+    "homepage": "https://github.com/shapecode/doctrine-session-handler-bundle",
+    "support": {
+        "email": "support@shapecode.de",
+        "issues": "https://github.com/shapecode/doctrine-session-handler-bundle/issues",
+        "source": "https://github.com/shapecode/doctrine-session-handler-bundle/releases",
+        "wiki": "https://github.com/shapecode/doctrine-session-handler-bundle/wiki"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nikita Loges",
+            "homepage": "http://nikita-loges.de",
+            "email": "develop@nikita-loges.de"
+        }
+    ],
+    "require": {
+        "php": "~5.5|~7.0",
+
+        "symfony/framework-bundle": "~2.8|~3.0",
+        "symfony/config": "~2.8|~3.0",
+        "symfony/http-kernel": "~2.8|~3.0",
+        "symfony/dependency-injection": "~2.8|~3.0"
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "~2.8|~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Shapecode\\Bundle\\Doctrine\\SessionHandlerBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Shapecode\\Bundle\\Doctrine\\SessionHandlerBundle\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-release/1.0": "1.0-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
