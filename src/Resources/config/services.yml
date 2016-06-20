@@ -1,0 +1,7 @@
+parameters:
+    shapecode_doctrine_session_handler.handler.class: Shapecode\Bundle\Doctrine\SessionHandlerBundle\Session\Handler\DoctrineHandler
+
+services:
+    shapecode_doctrine_session_handler.handler:
+        class: "%shapecode_doctrine_session_handler.handler.class%"
+        arguments: ["@doctrine.orm.entity_manager"]

@@ -1,6 +1,6 @@
 {
     "name": "shapecode/doctrine-session-handler-bundle",
-    "description": "",
+    "description": "Adds a doctrine session handler to a Symfony project.",
     "keywords": [
         "doctrine",
         "session",
