@@ -2,9 +2,11 @@
     "name": "shapecode/doctrine-session-handler-bundle",
     "description": "",
     "keywords": [
-        "email",
-        "mail",
-        "imap"
+        "doctrine",
+        "session",
+        "bundle",
+        "symfony",
+        "handler"
     ],
     "type": "symfony-bundle",
     "homepage": "https://github.com/shapecode/doctrine-session-handler-bundle",
