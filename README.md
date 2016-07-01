@@ -19,9 +19,7 @@ Add the bundle to your project as a composer dependency:
 ```json
 // composer.json
 {
-    // ...
     require: {
-        // ...
         "shapecode/doctrine-session-handler-bundle": "~1.0"
     }
 }
@@ -30,7 +28,7 @@ Add the bundle to your project as a composer dependency:
 or ...
 
 ```bash
-$ composer require shapecode/doctrine-session-handler-bundle:~1.2
+$ composer require shapecode/doctrine-session-handler-bundle:~1.0
 ```
 
 Then do a composer update.
