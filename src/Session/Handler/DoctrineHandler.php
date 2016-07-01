@@ -77,11 +77,9 @@ class DoctrineHandler implements \SessionHandlerInterface
      */
     public function read($session_id)
     {
-        $session = $this->getRepository()->findOneBy([
-            'sessionId' => $session_id
-        ]);
+        $session = $this->getSession($session_id);
 
-        if (!$session) {
+        if (!$session || is_null($session->getData())) {
             return '';
         }
 
@@ -99,16 +97,9 @@ class DoctrineHandler implements \SessionHandlerInterface
 
         $now = new \DateTime();
         $enfOfLife = new \DateTime();
-        $enfOfLife->add(new \DateInterval('PT'.$maxlifetime.'S'));
+        $enfOfLife->add(new \DateInterval('PT' . $maxlifetime . 'S'));
 
-        $session = $this->getRepository()->findOneBy([
-            'sessionId' => $session_id
-        ]);
-
-        if (!$session) {
-            $session = $this->getNewSession();
-            $session->setSessionId($session_id);
-        }
+        $session = $this->getSession($session_id);
 
         $session->setData($session_data);
         $session->setUpdatedAt($now);
@@ -129,13 +120,37 @@ class DoctrineHandler implements \SessionHandlerInterface
     }
 
     /**
+     * @param $session_id
+     *
      * @return Session
      */
-    protected function getNewSession()
+    protected function newSession($session_id)
     {
         $className = $this->getRepository()->getClassName();
 
-        return new $className;
+        /** @var Session $session */
+        $session = new $className;
+        $session->setSessionId($session_id);
+
+        return $session;
+    }
+
+    /**
+     * @param $session_id
+     *
+     * @return Session
+     */
+    protected function getSession($session_id)
+    {
+        $session = $this->getRepository()->findOneBy([
+            'sessionId' => $session_id
+        ]);
+
+        if (!$session) {
+            $session = $this->newSession($session_id);
+        }
+
+        return $session;
     }
 
 }
