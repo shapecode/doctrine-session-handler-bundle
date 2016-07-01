@@ -19,7 +19,7 @@ Add the bundle to your project as a composer dependency:
 ```json
 // composer.json
 {
-    require: {
+    "require": {
         "shapecode/doctrine-session-handler-bundle": "~1.0"
     }
 }
