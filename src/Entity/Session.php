@@ -30,7 +30,7 @@ class Session
 
     /**
      * @var mixed
-     * @ORM\Column(type="blob")
+     * @ORM\Column(type="blob", nullable=true)
      */
     protected $data;
 
