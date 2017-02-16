@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityRepository;
  *
  * @package Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository
  * @author  Nikita Loges
- * @company tenolo GbR
  */
 class SessionRepository extends EntityRepository implements SessionRepositoryInterface
 {

@@ -9,7 +9,6 @@ use Doctrine\Common\Persistence\ObjectRepository;
  *
  * @package Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository
  * @author  Nikita Loges
- * @company tenolo GbR
  */
 interface SessionRepositoryInterface extends ObjectRepository
 {

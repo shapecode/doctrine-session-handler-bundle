@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @package Shapecode\Bundle\Doctrine\SessionHandlerBundle\Command
  * @author  Nikita Loges
- * @company tenolo GbR
  */
 class ClearSessionCommand extends ContainerAwareCommand
 {
