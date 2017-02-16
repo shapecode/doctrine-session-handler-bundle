@@ -11,8 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @author  Nikita Loges
  *
  * @ORM\Entity(repositoryClass="Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository\SessionRepository")
+ * @ORM\Table(name="symfony_session")
  */
-class Session
+class Session implements SessionInterface
 {
 
     /**
@@ -32,7 +33,7 @@ class Session
      * @var mixed
      * @ORM\Column(type="blob", nullable=true)
      */
-    protected $data;
+    protected $sessionData;
 
     /**
      * @var \DateTime
@@ -95,18 +96,37 @@ class Session
 
     /**
      * @return mixed
+     * @deprecated
      */
     public function getData()
     {
-        return $this->data;
+        return $this->getSessionData();
     }
 
     /**
      * @param mixed $data
+     *
+     * @deprecated
      */
     public function setData($data)
     {
-        $this->data = $data;
+        $this->setSessionData($data);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSessionData()
+    {
+        return $this->sessionData;
+    }
+
+    /**
+     * @param mixed $sessionData
+     */
+    public function setSessionData($sessionData)
+    {
+        $this->sessionData = $sessionData;
     }
 
     /**
