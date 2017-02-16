@@ -10,7 +10,6 @@ use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session;
  *
  * @package Shapecode\Bundle\Doctrine\SessionHandlerBundle\Session\Handler
  * @author  Nikita Loges
- * @company tenolo GbR
  */
 class DoctrineHandler implements \SessionHandlerInterface
 {
