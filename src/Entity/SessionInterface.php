@@ -7,7 +7,6 @@ namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity;
  *
  * @package Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity
  * @author  Nikita Loges
- * @company tenolo GbR
  */
 interface SessionInterface
 {
