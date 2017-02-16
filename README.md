@@ -41,7 +41,7 @@ Add the bundle to your application kernel:
 ```php
 <?php
 
-// application/ApplicationKernel.php
+// app/AppKernel.php
 public function registerBundles()
 {
 	// ...
@@ -61,7 +61,7 @@ Update your database.
 $ php bin/console doctrine:schema:update --force
 ```
 
-Now you have to change your application config.
+Now you have to change your application config (default location of app/config/config.yml).
 
 ```yml
 framework:
