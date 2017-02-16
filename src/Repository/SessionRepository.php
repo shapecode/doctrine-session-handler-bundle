@@ -11,7 +11,34 @@ use Doctrine\ORM\EntityRepository;
  * @author  Nikita Loges
  * @company tenolo GbR
  */
-class SessionRepository extends EntityRepository
+class SessionRepository extends EntityRepository implements SessionRepositoryInterface
 {
 
+    /**
+     * @return mixed
+     */
+    public function purge()
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->delete();
+        $qb->where($qb->expr()->lt('r.endOfLife', ':endOfLife'));
+        $qb->setParameter('endOfLife', new \DateTime());
+
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param $sessionId
+     *
+     * @return mixed
+     */
+    public function destroy($sessionId)
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->delete();
+        $qb->where($qb->expr()->eq('r.sessionId', ':session_id'));
+        $qb->setParameter('session_id', $sessionId);
+
+        return $qb->getQuery()->execute();
+    }
 }

@@ -4,6 +4,7 @@ namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Session\Handler;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session;
+use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\SessionInterface;
 
 /**
  * Class DoctrineHandler
@@ -41,12 +42,7 @@ class DoctrineHandler implements \SessionHandlerInterface
      */
     public function destroy($session_id)
     {
-        $qb = $this->getRepository()->createQueryBuilder('r');
-        $qb->delete();
-        $qb->where($qb->expr()->eq('r.sessionId', ':session_id'));
-        $qb->setParameter('session_id', $session_id);
-
-        return $qb->getQuery()->execute();
+        return $this->getRepository()->destroy($session_id);
     }
 
     /**
@@ -54,12 +50,7 @@ class DoctrineHandler implements \SessionHandlerInterface
      */
     public function gc($maxlifetime)
     {
-        $qb = $this->getRepository()->createQueryBuilder('r');
-        $qb->delete();
-        $qb->where($qb->expr()->lt('r.endOfLife', ':endOfLife'));
-        $qb->setParameter('endOfLife', new \DateTime());
-
-        $qb->getQuery()->execute();
+        $this->getRepository()->purge();
 
         return true;
     }
@@ -79,11 +70,11 @@ class DoctrineHandler implements \SessionHandlerInterface
     {
         $session = $this->getSession($session_id);
 
-        if (!$session || is_null($session->getData())) {
+        if (!$session || is_null($session->getSessionData())) {
             return '';
         }
 
-        $resource = $session->getData();
+        $resource = $session->getSessionData();
 
         return is_resource($resource) ? stream_get_contents($resource) : $resource;
     }
@@ -101,7 +92,7 @@ class DoctrineHandler implements \SessionHandlerInterface
 
         $session = $this->getSession($session_id);
 
-        $session->setData($session_data);
+        $session->setSessionData($session_data);
         $session->setUpdatedAt($now);
         $session->setEndOfLife($enfOfLife);
 
@@ -116,7 +107,7 @@ class DoctrineHandler implements \SessionHandlerInterface
      */
     protected function getRepository()
     {
-        return $this->entityManager->getRepository('ShapecodeDoctrineSessionHandlerBundle:Session');
+        return $this->entityManager->getRepository(SessionInterface::class);
     }
 
     /**

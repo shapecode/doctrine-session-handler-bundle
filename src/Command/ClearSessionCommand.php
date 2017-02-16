@@ -2,6 +2,7 @@
 
 namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Command;
 
+use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,8 +22,6 @@ class ClearSessionCommand extends ContainerAwareCommand
      */
     protected function configure()
     {
-        parent::configure();
-
         $this->setName('shapecode:doctrine-session:clear');
         $this->setDescription('Clears all dead session in the database.');
     }
@@ -32,12 +31,7 @@ class ClearSessionCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $qb = $this->getRepository()->createQueryBuilder('r');
-        $qb->delete();
-        $qb->where($qb->expr()->lt('r.endOfLife', ':endOfLife'));
-        $qb->setParameter('endOfLife', new \DateTime());
-
-        $qb->getQuery()->execute();
+        $this->getRepository()->purge();
 
         $output->writeln('sessions cleared.');
     }
@@ -47,7 +41,7 @@ class ClearSessionCommand extends ContainerAwareCommand
      */
     protected function getRepository()
     {
-        return $this->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ShapecodeDoctrineSessionHandlerBundle:Session');
+        return $this->getContainer()->get('doctrine.orm.entity_manager')->getRepository(SessionInterface::class);
     }
 
 }
