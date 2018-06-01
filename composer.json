@@ -25,34 +25,24 @@
         }
     ],
     "require": {
-        "php": "~5.5|~7.0",
+        "php": "~5.6|~7.0",
 
-        "symfony/framework-bundle": "~2.8|~3.0",
-        "symfony/config": "~2.8|~3.0",
-        "symfony/console": "~2.8|~3.0",
-        "symfony/http-kernel": "~2.8|~3.0",
-        "symfony/dependency-injection": "~2.8|~3.0",
+        "symfony/framework-bundle": "~2.8|~3.0|~4.0",
+        "symfony/config": "~2.8|~3.0|~4.0",
+        "symfony/console": "~2.8|~3.0|~4.0",
+        "symfony/http-kernel": "~2.8|~3.0|~4.0",
+        "symfony/dependency-injection": "~2.8|~3.0|~4.0",
 
         "doctrine/orm": "~2.5"
-    },
-    "require-dev": {
-        "symfony/phpunit-bridge": "~2.8|~3.0"
     },
     "autoload": {
         "psr-4": {
             "Shapecode\\Bundle\\Doctrine\\SessionHandlerBundle\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Shapecode\\Bundle\\Doctrine\\SessionHandlerBundle\\Tests\\": "tests/"
-        }
-    },
     "extra": {
         "branch-alias": {
-            "dev-release/2.0": "2.0-dev",
-            "dev-release/1.1": "1.1-dev",
-            "dev-release/1.0": "1.0-dev"
+            "dev-master": "3.0-dev"
         }
     },
     "minimum-stability": "dev",
