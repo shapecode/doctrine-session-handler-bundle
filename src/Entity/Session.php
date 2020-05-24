@@ -1,178 +1,117 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use function is_resource;
+use function stream_get_contents;
 
 /**
- * Class Session
- *
- * @package Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity
- * @author  Nikita Loges
- *
  * @ORM\Entity(repositoryClass="Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository\SessionRepository")
  * @ORM\Table(name="symfony_session")
  */
 class Session implements SessionInterface
 {
-
     /**
-     * @ORM\Column(type="bigint", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
-    /**
+     * @ORM\Column(type="string", unique=true)
+     *
      * @var string
-     * @ORM\Column(type="string")
      */
     protected $sessionId;
 
     /**
-     * @var mixed
      * @ORM\Column(type="blob", nullable=true)
+     *
+     * @var resource|string|null
      */
     protected $sessionData;
 
     /**
-     * @var \DateTime
      * @ORM\Column(type="datetime")
+     *
+     * @var DateTime
      */
     protected $createdAt;
 
     /**
-     * @var \DateTime
      * @ORM\Column(type="datetime")
+     *
+     * @var DateTime
      */
     protected $updatedAt;
 
     /**
-     * @var \DateTime
      * @ORM\Column(type="datetime")
+     *
+     * @var DateTime
      */
     protected $endOfLife;
 
-    /**
-     *
-     */
     public function __construct()
     {
-        $this->setCreatedAt(new \DateTime());
-        $this->setUpdatedAt(new \DateTime());
+        $this->setCreatedAt(new DateTime());
+        $this->setUpdatedAt(new DateTime());
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setId($id = null)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSessionId()
+    public function getSessionId() : string
     {
         return $this->sessionId;
     }
 
-    /**
-     * @param string $sessionId
-     */
-    public function setSessionId($sessionId)
+    public function setSessionId(string $sessionId) : void
     {
         $this->sessionId = $sessionId;
     }
 
-    /**
-     * @return mixed
-     * @deprecated
-     */
-    public function getData()
+    public function getSessionData() : ?string
     {
-        return $this->getSessionData();
-    }
+        if (is_resource($this->sessionData)) {
+            $resource = stream_get_contents($this->sessionData);
 
-    /**
-     * @param mixed $data
-     *
-     * @deprecated
-     */
-    public function setData($data)
-    {
-        $this->setSessionData($data);
-    }
+            if ($resource === false) {
+                return null;
+            }
 
-    /**
-     * @return mixed
-     */
-    public function getSessionData()
-    {
+            return $resource;
+        }
+
         return $this->sessionData;
     }
 
-    /**
-     * @param mixed $sessionData
-     */
-    public function setSessionData($sessionData)
+    public function setSessionData(?string $sessionData) : void
     {
         $this->sessionData = $sessionData;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
+    public function getCreatedAt() : DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt)
+    public function setCreatedAt(DateTime $createdAt) : void
     {
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUpdatedAt()
+    public function getUpdatedAt() : DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param mixed $updatedAt
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
+    public function setUpdatedAt(DateTime $updatedAt) : void
     {
         $this->updatedAt = $updatedAt;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getEndOfLife()
+    public function getEndOfLife() : DateTime
     {
         return $this->endOfLife;
     }
 
-    /**
-     * @param \DateTime $endOfLife
-     */
-    public function setEndOfLife(\DateTime $endOfLife)
+    public function setEndOfLife(DateTime $endOfLife) : void
     {
         $this->endOfLife = $endOfLife;
     }

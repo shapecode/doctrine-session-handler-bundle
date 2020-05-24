@@ -1,73 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity;
+
+use DateTime;
 
 /**
  * Interface SessionInterface
- *
- * @package Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity
- * @author  Nikita Loges
  */
 interface SessionInterface
 {
+    public function getSessionId() : string;
 
-    /**
-     * @inheritdoc
-     */
-    public function getId();
+    public function setSessionId(string $sessionId) : void;
 
-    /**
-     * @inheritdoc
-     */
-    public function setId($id = null);
+    public function getSessionData() : ?string;
 
-    /**
-     * @return string
-     */
-    public function getSessionId();
+    public function setSessionData(?string $sessionData) : void;
 
-    /**
-     * @param string $sessionId
-     */
-    public function setSessionId($sessionId);
+    public function getCreatedAt() : DateTime;
 
-    /**
-     * @return mixed
-     */
-    public function getSessionData();
+    public function setCreatedAt(DateTime $createdAt) : void;
 
-    /**
-     * @param mixed $sessionData
-     */
-    public function setSessionData($sessionData);
+    public function getUpdatedAt() : DateTime;
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt();
+    public function setUpdatedAt(DateTime $updatedAt) : void;
 
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt);
+    public function getEndOfLife() : DateTime;
 
-    /**
-     * @return mixed
-     */
-    public function getUpdatedAt();
-
-    /**
-     * @param mixed $updatedAt
-     */
-    public function setUpdatedAt(\DateTime $updatedAt);
-
-    /**
-     * @return \DateTime
-     */
-    public function getEndOfLife();
-
-    /**
-     * @param \DateTime $endOfLife
-     */
-    public function setEndOfLife(\DateTime $endOfLife);
+    public function setEndOfLife(DateTime $endOfLife) : void;
 }

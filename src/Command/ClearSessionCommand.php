@@ -1,46 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Command;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\SessionInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository\SessionRepositoryInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use function assert;
 
-/**
- * Class ClearSessionCommand
- *
- * @package Shapecode\Bundle\Doctrine\SessionHandlerBundle\Command
- * @author  Nikita Loges
- */
-class ClearSessionCommand extends ContainerAwareCommand
+class ClearSessionCommand extends Command
 {
+    /** @var EntityManagerInterface */
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+
+        parent::__construct();
+    }
 
     /**
      * @inheritDoc
      */
-    protected function configure()
+    protected function configure() : void
     {
         $this->setName('shapecode:doctrine-session:clear');
         $this->setDescription('Clears all dead session in the database.');
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
-        $this->getRepository()->purge();
+        $repo = $this->entityManager->getRepository(SessionInterface::class);
+        assert($repo instanceof SessionRepositoryInterface);
+
+        $repo->purge();
 
         $output->writeln('sessions cleared.');
-    }
 
-    /**
-     * @return \Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository\SessionRepository
-     */
-    protected function getRepository()
-    {
-        return $this->getContainer()->get('doctrine.orm.entity_manager')->getRepository(SessionInterface::class);
+        return 0;
     }
-
 }

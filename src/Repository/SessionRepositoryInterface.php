@@ -1,17 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository;
 
 use Doctrine\Common\Persistence\ObjectRepository;
+use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\SessionInterface;
 
-/**
- * Interface SessionRepositoryInterface
- *
- * @package Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository
- * @author  Nikita Loges
- */
 interface SessionRepositoryInterface extends ObjectRepository
 {
+    public function findOneBySessionId(string $sessionId) : ?SessionInterface;
 
     /**
      * @return mixed
@@ -19,9 +17,7 @@ interface SessionRepositoryInterface extends ObjectRepository
     public function purge();
 
     /**
-     * @param $sessionId
-     *
      * @return mixed
      */
-    public function destroy($sessionId);
+    public function destroy(string $sessionId);
 }

@@ -1,0 +1,37 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Shapecode\\\\Bundle\\\\Doctrine\\\\SessionHandlerBundle\\\\Session\\\\Handler\\\\DoctrineHandler\\:\\:destroy\\(\\) has parameter \\$sessionId with no typehint specified\\.$#"
+			count: 1
+			path: src/Session/Handler/DoctrineHandler.php
+
+		-
+			message: "#^Method Shapecode\\\\Bundle\\\\Doctrine\\\\SessionHandlerBundle\\\\Session\\\\Handler\\\\DoctrineHandler\\:\\:gc\\(\\) has parameter \\$maxlifetime with no typehint specified\\.$#"
+			count: 1
+			path: src/Session/Handler/DoctrineHandler.php
+
+		-
+			message: "#^Method Shapecode\\\\Bundle\\\\Doctrine\\\\SessionHandlerBundle\\\\Session\\\\Handler\\\\DoctrineHandler\\:\\:open\\(\\) has parameter \\$savePath with no typehint specified\\.$#"
+			count: 1
+			path: src/Session/Handler/DoctrineHandler.php
+
+		-
+			message: "#^Method Shapecode\\\\Bundle\\\\Doctrine\\\\SessionHandlerBundle\\\\Session\\\\Handler\\\\DoctrineHandler\\:\\:open\\(\\) has parameter \\$sessionId with no typehint specified\\.$#"
+			count: 1
+			path: src/Session/Handler/DoctrineHandler.php
+
+		-
+			message: "#^Method Shapecode\\\\Bundle\\\\Doctrine\\\\SessionHandlerBundle\\\\Session\\\\Handler\\\\DoctrineHandler\\:\\:read\\(\\) has parameter \\$sessionId with no typehint specified\\.$#"
+			count: 1
+			path: src/Session/Handler/DoctrineHandler.php
+
+		-
+			message: "#^Method Shapecode\\\\Bundle\\\\Doctrine\\\\SessionHandlerBundle\\\\Session\\\\Handler\\\\DoctrineHandler\\:\\:write\\(\\) has parameter \\$sessionData with no typehint specified\\.$#"
+			count: 1
+			path: src/Session/Handler/DoctrineHandler.php
+
+		-
+			message: "#^Method Shapecode\\\\Bundle\\\\Doctrine\\\\SessionHandlerBundle\\\\Session\\\\Handler\\\\DoctrineHandler\\:\\:write\\(\\) has parameter \\$sessionId with no typehint specified\\.$#"
+			count: 1
+			path: src/Session/Handler/DoctrineHandler.php
+

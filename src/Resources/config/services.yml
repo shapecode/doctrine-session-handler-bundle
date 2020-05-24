@@ -1,4 +1,3 @@
 services:
-    shapecode_doctrine_session_handler.handler:
-        class: Shapecode\Bundle\Doctrine\SessionHandlerBundle\Session\Handler\DoctrineHandler
-        arguments: ["@doctrine.orm.entity_manager"]
+    Shapecode\Bundle\Doctrine\SessionHandlerBundle\Command\ClearSessionCommand: ~
+    Shapecode\Bundle\Doctrine\SessionHandlerBundle\Session\Handler\DoctrineHandler: ~
