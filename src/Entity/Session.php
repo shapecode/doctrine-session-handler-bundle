@@ -16,7 +16,9 @@ use function stream_get_contents;
 class Session implements SessionInterface
 {
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="CUSTOM")
      *
      * @var string
      */
