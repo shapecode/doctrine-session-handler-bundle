@@ -6,9 +6,6 @@ namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity;
 
 use DateTime;
 
-/**
- * Interface SessionInterface
- */
 interface SessionInterface
 {
     public function getSessionId() : string;

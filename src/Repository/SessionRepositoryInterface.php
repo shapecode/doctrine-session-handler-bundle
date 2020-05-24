@@ -11,13 +11,7 @@ interface SessionRepositoryInterface extends ObjectRepository
 {
     public function findOneBySessionId(string $sessionId) : ?SessionInterface;
 
-    /**
-     * @return mixed
-     */
-    public function purge();
+    public function purge() : void;
 
-    /**
-     * @return mixed
-     */
-    public function destroy(string $sessionId);
+    public function destroy(string $sessionId) : void;
 }

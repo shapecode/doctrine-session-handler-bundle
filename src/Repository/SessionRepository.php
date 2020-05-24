@@ -20,29 +20,23 @@ class SessionRepository extends EntityRepository implements SessionRepositoryInt
         return $session;
     }
 
-    /**
-     * @return mixed
-     */
-    public function purge()
+    public function purge() : void
     {
         $qb = $this->createQueryBuilder('r');
         $qb->delete();
         $qb->where($qb->expr()->lt('r.endOfLife', ':endOfLife'));
         $qb->setParameter('endOfLife', new DateTime(), Types::DATETIME_MUTABLE);
 
-        return $qb->getQuery()->execute();
+        $qb->getQuery()->execute();
     }
 
-    /**
-     * @return mixed
-     */
-    public function destroy(string $sessionId)
+    public function destroy(string $sessionId) : void
     {
         $qb = $this->createQueryBuilder('r');
         $qb->delete();
         $qb->where($qb->expr()->eq('r.sessionId', ':session_id'));
         $qb->setParameter('session_id', $sessionId, Types::STRING);
 
-        return $qb->getQuery()->execute();
+        $qb->getQuery()->execute();
     }
 }

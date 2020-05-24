@@ -23,9 +23,6 @@ class DoctrineHandler implements SessionHandlerInterface
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function close() : bool
     {
         return true;

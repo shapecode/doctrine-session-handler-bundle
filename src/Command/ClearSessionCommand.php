@@ -24,9 +24,6 @@ class ClearSessionCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function configure() : void
     {
         $this->setName('shapecode:doctrine-session:clear');
