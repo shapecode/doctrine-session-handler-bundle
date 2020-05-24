@@ -18,7 +18,7 @@ class Session implements SessionInterface
     /**
      * @ORM\Column(type="string")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\GeneratedValue(strategy="NONE")
      *
      * @var string
      */
