@@ -82,7 +82,7 @@ class DoctrineHandler implements SessionHandlerInterface
         $session->setEndOfLife($enfOfLife);
 
         $this->entityManager->persist($session);
-        $this->entityManager->flush();
+        $this->entityManager->flush($session);
 
         return true;
     }
