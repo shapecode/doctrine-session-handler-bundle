@@ -8,23 +8,23 @@ use DateTime;
 
 interface SessionInterface
 {
-    public function getSessionId() : string;
+    public function getSessionId(): string;
 
-    public function setSessionId(string $sessionId) : void;
+    public function setSessionId(string $sessionId): void;
 
-    public function getSessionData() : ?string;
+    public function getSessionData(): ?string;
 
-    public function setSessionData(?string $sessionData) : void;
+    public function setSessionData(?string $sessionData): void;
 
-    public function getCreatedAt() : DateTime;
+    public function getCreatedAt(): DateTime;
 
-    public function setCreatedAt(DateTime $createdAt) : void;
+    public function setCreatedAt(DateTime $createdAt): void;
 
-    public function getUpdatedAt() : DateTime;
+    public function getUpdatedAt(): DateTime;
 
-    public function setUpdatedAt(DateTime $updatedAt) : void;
+    public function setUpdatedAt(DateTime $updatedAt): void;
 
-    public function getEndOfLife() : DateTime;
+    public function getEndOfLife(): DateTime;
 
-    public function setEndOfLife(DateTime $endOfLife) : void;
+    public function setEndOfLife(DateTime $endOfLife): void;
 }

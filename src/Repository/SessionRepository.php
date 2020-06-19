@@ -8,11 +8,12 @@ use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityRepository;
 use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\SessionInterface;
+
 use function assert;
 
 class SessionRepository extends EntityRepository implements SessionRepositoryInterface
 {
-    public function findOneBySessionId(string $sessionId) : ?SessionInterface
+    public function findOneBySessionId(string $sessionId): ?SessionInterface
     {
         $session = $this->findOneBy(['sessionId' => $sessionId]);
         assert($session instanceof SessionInterface || $session === null);
@@ -20,7 +21,7 @@ class SessionRepository extends EntityRepository implements SessionRepositoryInt
         return $session;
     }
 
-    public function purge() : void
+    public function purge(): void
     {
         $qb = $this->createQueryBuilder('r');
         $qb->delete();
@@ -30,7 +31,7 @@ class SessionRepository extends EntityRepository implements SessionRepositoryInt
         $qb->getQuery()->execute();
     }
 
-    public function destroy(string $sessionId) : void
+    public function destroy(string $sessionId): void
     {
         $qb = $this->createQueryBuilder('r');
         $qb->delete();

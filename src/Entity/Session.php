@@ -6,6 +6,7 @@ namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+
 use function is_resource;
 use function stream_get_contents;
 
@@ -58,17 +59,17 @@ class Session implements SessionInterface
         $this->setUpdatedAt(new DateTime());
     }
 
-    public function getSessionId() : string
+    public function getSessionId(): string
     {
         return $this->sessionId;
     }
 
-    public function setSessionId(string $sessionId) : void
+    public function setSessionId(string $sessionId): void
     {
         $this->sessionId = $sessionId;
     }
 
-    public function getSessionData() : ?string
+    public function getSessionData(): ?string
     {
         if (is_resource($this->sessionData)) {
             $resource = stream_get_contents($this->sessionData);
@@ -83,37 +84,37 @@ class Session implements SessionInterface
         return $this->sessionData;
     }
 
-    public function setSessionData(?string $sessionData) : void
+    public function setSessionData(?string $sessionData): void
     {
         $this->sessionData = $sessionData;
     }
 
-    public function getCreatedAt() : DateTime
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTime $createdAt) : void
+    public function setCreatedAt(DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    public function getUpdatedAt() : DateTime
+    public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTime $updatedAt) : void
+    public function setUpdatedAt(DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
 
-    public function getEndOfLife() : DateTime
+    public function getEndOfLife(): DateTime
     {
         return $this->endOfLife;
     }
 
-    public function setEndOfLife(DateTime $endOfLife) : void
+    public function setEndOfLife(DateTime $endOfLife): void
     {
         $this->endOfLife = $endOfLife;
     }
