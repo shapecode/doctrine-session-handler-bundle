@@ -4,5 +4,4 @@ services:
         autoconfigure: true
         public: false
 
-    Shapecode\Bundle\Doctrine\SessionHandlerBundle\Command\ClearSessionCommand: ~
     Shapecode\Bundle\Doctrine\SessionHandlerBundle\Session\Handler\DoctrineHandler: ~

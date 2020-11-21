@@ -4,40 +4,47 @@ declare(strict_types=1);
 
 namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository;
 
-use DateTime;
+use Carbon\Carbon;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityRepository;
-use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\SessionInterface;
+use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session;
 
-use function assert;
-
-class SessionRepository extends EntityRepository implements SessionRepositoryInterface
+/**
+ * @method Session|null find($id, ?int $lockMode = null, ?int $lockVersion = null)
+ * @method Session[] findAll()
+ * @method Session|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Session[] findBy(array $criteria, array $orderBy = null, ?int $limit = null, ?int $offset = null)
+ */
+class SessionRepository extends EntityRepository
 {
-    public function findOneBySessionId(string $sessionId): ?SessionInterface
+    public function findOneBySessionId(string $sessionId): ?Session
     {
-        $session = $this->findOneBy(['sessionId' => $sessionId]);
-        assert($session instanceof SessionInterface || $session === null);
-
-        return $session;
+        return $this->findOneBy(['sessionId' => $sessionId]);
     }
 
-    public function purge(): void
+    public function purge(int $maxLifeTime): void
     {
-        $qb = $this->createQueryBuilder('r');
-        $qb->delete();
-        $qb->where($qb->expr()->lt('r.endOfLife', ':endOfLife'));
-        $qb->setParameter('endOfLife', new DateTime(), Types::DATETIME_MUTABLE);
+        $lifetime = Carbon::now()->subRealSeconds($maxLifeTime);
 
-        $qb->getQuery()->execute();
+        $this->_em->createQuery(
+            <<<'DQL'
+                DELETE FROM Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session s
+                WHERE s.updatedAt <= :updatedAt
+            DQL
+        )
+            ->setParameter('updatedAt', $lifetime, Types::DATETIME_MUTABLE)
+            ->execute();
     }
 
     public function destroy(string $sessionId): void
     {
-        $qb = $this->createQueryBuilder('r');
-        $qb->delete();
-        $qb->where($qb->expr()->eq('r.sessionId', ':session_id'));
-        $qb->setParameter('session_id', $sessionId, Types::STRING);
-
-        $qb->getQuery()->execute();
+        $this->_em->createQuery(
+            <<<'DQL'
+                DELETE FROM Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session s
+                WHERE s.sessionId = :sessionId
+            DQL
+        )
+            ->setParameter('sessionId', $sessionId, Types::STRING)
+            ->execute();
     }
 }

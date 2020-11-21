@@ -4,20 +4,17 @@ declare(strict_types=1);
 
 namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Session\Handler;
 
-use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use SessionHandlerInterface;
-use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\SessionInterface;
-use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository\SessionRepositoryInterface;
+use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session;
+use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository\SessionRepository;
 
 use function assert;
-use function ini_get;
 
 class DoctrineHandler implements SessionHandlerInterface
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -42,9 +39,9 @@ class DoctrineHandler implements SessionHandlerInterface
     /**
      * @inheritDoc
      */
-    public function gc($maxlifetime): bool
+    public function gc($maxLifeTime): bool
     {
-        $this->getRepository()->purge();
+        $this->getRepository()->purge($maxLifeTime);
 
         return true;
     }
@@ -70,17 +67,10 @@ class DoctrineHandler implements SessionHandlerInterface
      */
     public function write($sessionId, $sessionData): bool
     {
-        $maxLifeTime = (int) ini_get('session.gc_maxlifetime');
-
-        $now       = new DateTime();
-        $enfOfLife = new DateTime();
-        $enfOfLife->add(new DateInterval('PT' . $maxLifeTime . 'S'));
-
         $session = $this->getSession($sessionId);
 
         $session->setSessionData($sessionData);
-        $session->setUpdatedAt($now);
-        $session->setEndOfLife($enfOfLife);
+        $session->setUpdatedAt(new DateTime());
 
         $this->entityManager->persist($session);
         $this->entityManager->flush($session);
@@ -88,32 +78,20 @@ class DoctrineHandler implements SessionHandlerInterface
         return true;
     }
 
-    private function getRepository(): SessionRepositoryInterface
+    private function getRepository(): SessionRepository
     {
-        $repo = $this->entityManager->getRepository(SessionInterface::class);
-        assert($repo instanceof SessionRepositoryInterface);
+        $repo = $this->entityManager->getRepository(Session::class);
+        assert($repo instanceof SessionRepository);
 
         return $repo;
     }
 
-    private function newSession(string $sessionId): SessionInterface
-    {
-        $className = $this->getRepository()->getClassName();
-
-        $session = new $className();
-        assert($session instanceof SessionInterface);
-
-        $session->setSessionId($sessionId);
-
-        return $session;
-    }
-
-    private function getSession(string $sessionId): SessionInterface
+    private function getSession(string $sessionId): Session
     {
         $session = $this->getRepository()->findOneBySessionId($sessionId);
 
         if ($session === null) {
-            $session = $this->newSession($sessionId);
+            $session = new Session($sessionId);
         }
 
         return $session;

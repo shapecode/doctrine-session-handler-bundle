@@ -14,59 +14,38 @@ use function stream_get_contents;
  * @ORM\Entity(repositoryClass="Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository\SessionRepository")
  * @ORM\Table(name="symfony_session")
  */
-class Session implements SessionInterface
+class Session
 {
     /**
      * @ORM\Column(type="string")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     *
-     * @var string
      */
-    protected $sessionId;
+    private string $sessionId;
 
     /**
      * @ORM\Column(type="blob", nullable=true)
      *
      * @var resource|string|null
      */
-    protected $sessionData;
+    private $sessionData;
 
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @var DateTime
-     */
-    protected $createdAt;
+    /** @ORM\Column(type="datetime") */
+    private DateTime $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @var DateTime
-     */
-    protected $updatedAt;
+    /** @ORM\Column(type="datetime") */
+    private DateTime $updatedAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @var DateTime
-     */
-    protected $endOfLife;
-
-    public function __construct()
+    public function __construct(string $sessionId)
     {
-        $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
+        $this->sessionId = $sessionId;
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
     }
 
     public function getSessionId(): string
     {
         return $this->sessionId;
-    }
-
-    public function setSessionId(string $sessionId): void
-    {
-        $this->sessionId = $sessionId;
     }
 
     public function getSessionData(): ?string
@@ -94,11 +73,6 @@ class Session implements SessionInterface
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTime $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
     public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;
@@ -107,15 +81,5 @@ class Session implements SessionInterface
     public function setUpdatedAt(DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-    }
-
-    public function getEndOfLife(): DateTime
-    {
-        return $this->endOfLife;
-    }
-
-    public function setEndOfLife(DateTime $endOfLife): void
-    {
-        $this->endOfLife = $endOfLife;
     }
 }
