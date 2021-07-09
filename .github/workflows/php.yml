@@ -1,23 +1,57 @@
-name: PHP Composer
+name: Check
 
 on:
   push:
     branches:
-    - master
+      - master
   pull_request:
     branches:
-    - master
+      - master
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        php-versions: [ '7.4', '8.0' ]
+
     steps:
-    - uses: actions/checkout@v1
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          coverage: none
 
-    - name: Run Check
-      run: composer check
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict -n
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Composer Require Checker
+        run: composer crc
+
+      - name: Composer Unused
+        run: composer unuse
+
+      - name: CS Check
+        run: composer cs-check
+
+      - name: PHPStan
+        run: composer phpstan
