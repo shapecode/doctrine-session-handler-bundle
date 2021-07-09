@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity;
 
-use DateTime;
+use Carbon\Carbon;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 use function is_resource;
@@ -31,16 +32,16 @@ class Session
     private $sessionData;
 
     /** @ORM\Column(type="datetime") */
-    private DateTime $createdAt;
+    private DateTimeInterface $createdAt;
 
     /** @ORM\Column(type="datetime") */
-    private DateTime $updatedAt;
+    private DateTimeInterface $updatedAt;
 
     public function __construct(string $sessionId)
     {
         $this->sessionId = $sessionId;
-        $this->createdAt = new DateTime();
-        $this->updatedAt = new DateTime();
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
     }
 
     public function getSessionId(): string
@@ -68,17 +69,17 @@ class Session
         $this->sessionData = $sessionData;
     }
 
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): DateTime
+    public function getUpdatedAt(): DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTime $updatedAt): void
+    public function setUpdatedAt(DateTimeInterface $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }

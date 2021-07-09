@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Session\Handler;
 
-use DateTime;
+use Carbon\Carbon;
 use Doctrine\ORM\EntityManagerInterface;
 use SessionHandlerInterface;
 use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session;
@@ -70,7 +70,7 @@ class DoctrineHandler implements SessionHandlerInterface
         $session = $this->getSession($sessionId);
 
         $session->setSessionData($sessionData);
-        $session->setUpdatedAt(new DateTime());
+        $session->setUpdatedAt(Carbon::now());
 
         $this->entityManager->persist($session);
         $this->entityManager->flush($session);
