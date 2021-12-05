@@ -39,11 +39,11 @@ class DoctrineHandler implements SessionHandlerInterface
     /**
      * @inheritDoc
      */
-    public function gc($maxLifeTime): bool
+    public function gc($maxLifeTime)
     {
         $this->getRepository()->purge($maxLifeTime);
 
-        return true;
+        return 1;
     }
 
     /**

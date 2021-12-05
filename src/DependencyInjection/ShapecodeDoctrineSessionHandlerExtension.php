@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class ShapecodeDoctrineSessionHandlerExtension extends Extension
 {
     /**
-     * @inheritdoc
+     * @param array<string, mixed>|mixed[] $configs
      */
     public function load(array $configs, ContainerBuilder $container): void
     {

@@ -10,10 +10,7 @@ use Doctrine\ORM\EntityRepository;
 use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session;
 
 /**
- * @method Session|null find($id, ?int $lockMode = null, ?int $lockVersion = null)
- * @method Session[] findAll()
- * @method Session|null findOneBy(array $criteria, array $orderBy = null)
- * @method Session[] findBy(array $criteria, array $orderBy = null, ?int $limit = null, ?int $offset = null)
+ * @template-extends EntityRepository<Session>
  */
 class SessionRepository extends EntityRepository
 {
