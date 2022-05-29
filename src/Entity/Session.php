@@ -4,44 +4,41 @@ declare(strict_types=1);
 
 namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity;
 
-use Carbon\Carbon;
 use DateTimeInterface;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository\SessionRepository;
 
 use function is_resource;
 use function stream_get_contents;
 
-/**
- * @ORM\Entity(repositoryClass="Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository\SessionRepository")
- * @ORM\Table(name="symfony_session")
- */
+#[ORM\Entity(repositoryClass: SessionRepository::class)]
+#[ORM\Table(name: 'symfony_session')]
 class Session
 {
-    /**
-     * @ORM\Column(type="string")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
+    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Id()]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
     private string $sessionId;
 
-    /**
-     * @ORM\Column(type="blob", nullable=true)
-     *
-     * @var resource|string|null
-     */
+    /** @var resource|string|null */
+    #[ORM\Column(type: Types::BLOB, nullable: true)]
     private $sessionData;
 
-    /** @ORM\Column(type="datetime") */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private DateTimeInterface $createdAt;
 
-    /** @ORM\Column(type="datetime") */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private DateTimeInterface $updatedAt;
 
-    public function __construct(string $sessionId)
-    {
+    public function __construct(
+        string $sessionId,
+        DateTimeInterface $createdAt,
+        DateTimeInterface $updatedAt,
+    ) {
         $this->sessionId = $sessionId;
-        $this->createdAt = Carbon::now();
-        $this->updatedAt = Carbon::now();
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     public function getSessionId(): string

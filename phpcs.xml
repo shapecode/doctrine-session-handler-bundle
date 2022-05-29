@@ -6,7 +6,7 @@
     <arg name="extensions" value="php"/>
     <arg name="tab-width" value="4"/>
 
-    <config name="php_version" value="70412"/>
+    <config name="php_version" value="80106"/>
 
     <file>src/</file>
     <file>tests/</file>

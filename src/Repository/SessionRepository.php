@@ -23,24 +23,26 @@ class SessionRepository extends EntityRepository
     {
         $lifetime = Carbon::now()->subRealSeconds($maxLifeTime);
 
-        $this->_em->createQuery(
-            <<<'DQL'
-                DELETE FROM Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session s
-                WHERE s.updatedAt <= :updatedAt
-            DQL
-        )
+        $this->_em
+            ->createQuery(
+                <<<'DQL'
+                    DELETE FROM Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session s
+                    WHERE s.updatedAt <= :updatedAt
+                DQL
+            )
             ->setParameter('updatedAt', $lifetime, Types::DATETIME_MUTABLE)
             ->execute();
     }
 
     public function destroy(string $sessionId): void
     {
-        $this->_em->createQuery(
-            <<<'DQL'
-                DELETE FROM Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session s
-                WHERE s.sessionId = :sessionId
-            DQL
-        )
+        $this->_em
+            ->createQuery(
+                <<<'DQL'
+                    DELETE FROM Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session s
+                    WHERE s.sessionId = :sessionId
+                DQL
+            )
             ->setParameter('sessionId', $sessionId, Types::STRING)
             ->execute();
     }

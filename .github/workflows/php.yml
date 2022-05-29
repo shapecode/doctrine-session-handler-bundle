@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: [ '8.0', '8.1' ]
+        php-versions: [ '8.1' ]
 
     steps:
       - name: Checkout Repository
@@ -48,7 +48,7 @@ jobs:
         run: composer crc
 
       - name: Composer Unused
-        run: composer unuse
+        run: composer unused
 
       - name: CS Check
         run: composer cs-check

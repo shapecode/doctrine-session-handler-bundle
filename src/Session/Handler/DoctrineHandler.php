@@ -14,11 +14,15 @@ use function assert;
 
 class DoctrineHandler implements SessionHandlerInterface
 {
-    private EntityManagerInterface $entityManager;
+    private readonly SessionRepository $sessionRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager
+    ) {
+        $sessionRepository = $this->entityManager->getRepository(Session::class);
+        assert($sessionRepository instanceof SessionRepository);
+
+        $this->sessionRepository = $sessionRepository;
     }
 
     public function close(): bool
@@ -29,19 +33,20 @@ class DoctrineHandler implements SessionHandlerInterface
     /**
      * @inheritDoc
      */
-    public function destroy($sessionId): bool
+    public function destroy($id): bool
     {
-        $this->getRepository()->destroy($sessionId);
+        $this->sessionRepository->destroy($id);
 
         return true;
     }
 
     /**
      * @inheritDoc
+     * phpcs:disable Squiz.NamingConventions.ValidVariableName.NotCamelCaps
      */
-    public function gc($maxLifeTime)
+    public function gc($max_lifetime): int|false
     {
-        $this->getRepository()->purge($maxLifeTime);
+        $this->sessionRepository->purge($max_lifetime);
 
         return 1;
     }
@@ -49,7 +54,7 @@ class DoctrineHandler implements SessionHandlerInterface
     /**
      * @inheritDoc
      */
-    public function open($savePath, $sessionId): bool
+    public function open($path, $name): bool
     {
         return true;
     }
@@ -57,19 +62,19 @@ class DoctrineHandler implements SessionHandlerInterface
     /**
      * @inheritDoc
      */
-    public function read($sessionId): string
+    public function read($id): string
     {
-        return $this->getSession($sessionId)->getSessionData() ?? '';
+        return $this->getSession($id)->getSessionData() ?? '';
     }
 
     /**
      * @inheritDoc
      */
-    public function write($sessionId, $sessionData): bool
+    public function write($id, $data): bool
     {
-        $session = $this->getSession($sessionId);
+        $session = $this->getSession($id);
 
-        $session->setSessionData($sessionData);
+        $session->setSessionData($data);
         $session->setUpdatedAt(Carbon::now());
 
         $this->entityManager->persist($session);
@@ -78,20 +83,18 @@ class DoctrineHandler implements SessionHandlerInterface
         return true;
     }
 
-    private function getRepository(): SessionRepository
+    private function getSession(string $id): Session
     {
-        $repo = $this->entityManager->getRepository(Session::class);
-        assert($repo instanceof SessionRepository);
-
-        return $repo;
-    }
-
-    private function getSession(string $sessionId): Session
-    {
-        $session = $this->getRepository()->findOneBySessionId($sessionId);
+        $session = $this->sessionRepository->findOneBySessionId($id);
 
         if ($session === null) {
-            $session = new Session($sessionId);
+            $now = Carbon::now();
+
+            $session = new Session(
+                $id,
+                $now,
+                $now,
+            );
         }
 
         return $session;
