@@ -17,7 +17,7 @@ class DoctrineHandler implements SessionHandlerInterface
     private readonly SessionRepository $sessionRepository;
 
     public function __construct(
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
     ) {
         $sessionRepository = $this->entityManager->getRepository(Session::class);
         assert($sessionRepository instanceof SessionRepository);
@@ -30,9 +30,7 @@ class DoctrineHandler implements SessionHandlerInterface
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function destroy($id): bool
     {
         $this->sessionRepository->destroy($id);
@@ -51,25 +49,19 @@ class DoctrineHandler implements SessionHandlerInterface
         return 1;
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function open($path, $name): bool
     {
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function read($id): string
     {
         return $this->getSession($id)->getSessionData() ?? '';
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function write($id, $data): bool
     {
         $session = $this->getSession($id);
@@ -78,7 +70,7 @@ class DoctrineHandler implements SessionHandlerInterface
         $session->setUpdatedAt(Carbon::now());
 
         $this->entityManager->persist($session);
-        $this->entityManager->flush($session);
+        $this->entityManager->flush();
 
         return true;
     }

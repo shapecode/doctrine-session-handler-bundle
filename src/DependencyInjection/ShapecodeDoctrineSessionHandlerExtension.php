@@ -11,9 +11,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class ShapecodeDoctrineSessionHandlerExtension extends Extension
 {
-    /**
-     * @param array<string, mixed>|mixed[] $configs
-     */
+    /** @inheritDoc */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $locator = new FileLocator(__DIR__ . '/../Resources/config');

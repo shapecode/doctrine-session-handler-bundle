@@ -9,12 +9,10 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityRepository;
 use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session;
 
-/**
- * @template-extends EntityRepository<Session>
- */
+/** @template-extends EntityRepository<Session> */
 class SessionRepository extends EntityRepository
 {
-    public function findOneBySessionId(string $sessionId): ?Session
+    public function findOneBySessionId(string $sessionId): Session|null
     {
         return $this->findOneBy(['sessionId' => $sessionId]);
     }
@@ -28,7 +26,7 @@ class SessionRepository extends EntityRepository
                 <<<'DQL'
                     DELETE FROM Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session s
                     WHERE s.updatedAt <= :updatedAt
-                DQL
+                DQL,
             )
             ->setParameter('updatedAt', $lifetime, Types::DATETIME_MUTABLE)
             ->execute();
@@ -41,7 +39,7 @@ class SessionRepository extends EntityRepository
                 <<<'DQL'
                     DELETE FROM Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session s
                     WHERE s.sessionId = :sessionId
-                DQL
+                DQL,
             )
             ->setParameter('sessionId', $sessionId, Types::STRING)
             ->execute();

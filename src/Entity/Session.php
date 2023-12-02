@@ -46,7 +46,7 @@ class Session
         return $this->sessionId;
     }
 
-    public function getSessionData(): ?string
+    public function getSessionData(): string|null
     {
         if (is_resource($this->sessionData)) {
             $resource = stream_get_contents($this->sessionData);
@@ -61,7 +61,7 @@ class Session
         return $this->sessionData;
     }
 
-    public function setSessionData(?string $sessionData): void
+    public function setSessionData(string|null $sessionData): void
     {
         $this->sessionData = $sessionData;
     }

@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: [ '8.1' ]
+        php-versions: [ '8.2', '8.3' ]
 
     steps:
       - name: Checkout Repository
@@ -25,7 +25,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          coverage: none
 
       - name: Get composer cache directory
         id: composer-cache

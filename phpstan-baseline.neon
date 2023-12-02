@@ -1,7 +1,2 @@
 parameters:
-	ignoreErrors:
-		-
-			message: "#^Method Doctrine\\\\Persistence\\\\ObjectManager\\:\\:flush\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: src/Session/Handler/DoctrineHandler.php
-
+	ignoreErrors: []
