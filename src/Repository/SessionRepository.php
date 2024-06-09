@@ -8,15 +8,15 @@ use Carbon\Carbon;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Clock\ClockInterface;
 use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session;
-use Symfony\Component\Clock\Clock;
 
 /** @template-extends ServiceEntityRepository<Session> */
 class SessionRepository extends ServiceEntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        private readonly Clock $clock,
+        private readonly ClockInterface $clock,
     ) {
         parent::__construct($registry, Session::class);
     }
