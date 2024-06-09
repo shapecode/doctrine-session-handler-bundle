@@ -5,3 +5,4 @@ services:
         public: false
 
     Shapecode\Bundle\Doctrine\SessionHandlerBundle\Session\Handler\DoctrineHandler: ~
+    Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository\SessionRepository: ~

@@ -5,13 +5,22 @@ declare(strict_types=1);
 namespace Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository;
 
 use Carbon\Carbon;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session;
+use Symfony\Component\Clock\Clock;
 
-/** @template-extends EntityRepository<Session> */
-class SessionRepository extends EntityRepository
+/** @template-extends ServiceEntityRepository<Session> */
+class SessionRepository extends ServiceEntityRepository
 {
+    public function __construct(
+        ManagerRegistry $registry,
+        private readonly Clock $clock,
+    ) {
+        parent::__construct($registry, Session::class);
+    }
+
     public function findOneBySessionId(string $sessionId): Session|null
     {
         return $this->findOneBy(['sessionId' => $sessionId]);
@@ -19,9 +28,9 @@ class SessionRepository extends EntityRepository
 
     public function purge(int $maxLifeTime): void
     {
-        $lifetime = Carbon::now()->subRealSeconds($maxLifeTime);
+        $lifetime = Carbon::parse($this->clock->now())->subUTCSeconds($maxLifeTime);
 
-        $this->_em
+        $this->getEntityManager()
             ->createQuery(
                 <<<'DQL'
                     DELETE FROM Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session s
@@ -34,7 +43,7 @@ class SessionRepository extends EntityRepository
 
     public function destroy(string $sessionId): void
     {
-        $this->_em
+        $this->getEntityManager()
             ->createQuery(
                 <<<'DQL'
                     DELETE FROM Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session s
