@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository\SessionRepository;
 
 use function is_resource;
+use function is_string;
 use function stream_get_contents;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
@@ -48,20 +49,25 @@ class Session
 
     public function getSessionData(): string|null
     {
-        if (is_resource($this->sessionData)) {
-            $resource = stream_get_contents($this->sessionData);
+        $resource = $this->sessionData;
+
+        if (is_resource($resource)) {
+            $resource = stream_get_contents($resource);
 
             if ($resource === false) {
                 return null;
             }
+        }
 
+        if (is_string($resource)) {
             return $resource;
         }
 
-        return $this->sessionData;
+        return null;
     }
 
-    public function setSessionData(string|null $sessionData): void
+    /** @phpstan-param resource|string|null $sessionData */
+    public function setSessionData($sessionData): void
     {
         $this->sessionData = $sessionData;
     }

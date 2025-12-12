@@ -1,8 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-        public: false
-
-    Shapecode\Bundle\Doctrine\SessionHandlerBundle\Session\Handler\DoctrineHandler: ~
-    Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository\SessionRepository: ~

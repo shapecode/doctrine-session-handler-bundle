@@ -10,19 +10,12 @@ use SessionHandlerInterface;
 use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session;
 use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Repository\SessionRepository;
 
-use function assert;
-
-class DoctrineHandler implements SessionHandlerInterface
+final readonly class DoctrineHandler implements SessionHandlerInterface
 {
-    private readonly SessionRepository $sessionRepository;
-
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private EntityManagerInterface $entityManager,
+        private SessionRepository $sessionRepository,
     ) {
-        $sessionRepository = $this->entityManager->getRepository(Session::class);
-        assert($sessionRepository instanceof SessionRepository);
-
-        $this->sessionRepository = $sessionRepository;
     }
 
     public function close(): bool
@@ -42,7 +35,7 @@ class DoctrineHandler implements SessionHandlerInterface
      * @inheritDoc
      * phpcs:disable Squiz.NamingConventions.ValidVariableName.NotCamelCaps
      */
-    public function gc($max_lifetime): int|false
+    public function gc($max_lifetime): int
     {
         $this->sessionRepository->purge($max_lifetime);
 

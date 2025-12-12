@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: [ '8.2', '8.3' ]
+        php-versions: [ '8.4', '8.5' ]
         dependencies: [ 'locked', 'latest', 'lowest' ]
 
     steps:
@@ -36,11 +36,8 @@ jobs:
           dependency-versions: ${{ matrix.dependencies }}
           composer-options: --prefer-dist --no-suggest --no-scripts
 
-      - name: Composer Require Checker
-        run: composer crc
-
-      - name: Composer Unused
-        run: composer unused
+      - name: Composer Dependency Analysis
+        run: composer cda
 
       - name: CS Check
         run: composer cs-check

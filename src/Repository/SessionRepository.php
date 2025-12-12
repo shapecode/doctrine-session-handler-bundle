@@ -12,7 +12,7 @@ use Psr\Clock\ClockInterface;
 use Shapecode\Bundle\Doctrine\SessionHandlerBundle\Entity\Session;
 
 /** @template-extends ServiceEntityRepository<Session> */
-class SessionRepository extends ServiceEntityRepository
+final class SessionRepository extends ServiceEntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
